@@ -1,0 +1,8 @@
+[build]
+target = "riscv32i-unknown-none-elf"
+
+[target.riscv32i-unknown-none-elf]
+# Use our hand-written linker script instead of the linker's default layout.
+rustflags = ["-C", "link-arg=-Tlink.ld"]
+# `cargo run` boots the ELF directly in QEMU: no firmware/BIOS, UART on the terminal.
+runner = "qemu-system-riscv32 -machine virt -nographic -bios none -kernel"

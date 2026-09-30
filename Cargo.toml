@@ -1,0 +1,15 @@
+[package]
+name = "rv32i-firmware"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+# Intentionally empty: core only. See CLAUDE.md before adding anything.
+
+[profile.dev]
+panic = "abort"
+
+[profile.release]
+panic = "abort"
+opt-level = "s"
+debug = true
