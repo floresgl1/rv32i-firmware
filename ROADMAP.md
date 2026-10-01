@@ -2,12 +2,16 @@
 
 Each stage ends with a gate: a concrete check that either passes or fails. Don't start the next stage until the gate passes, and write down what you learned in `docs/` before moving on.
 
+This is also a first Rust project. Rust is learned one concept at a time, when a stage first needs it, rather than up front. Each stage lists the Rust concepts it introduces, and every gate includes being able to explain those concepts, not just the hardware.
+
 ## Stage 0: Setup
 
-- Install the Rust target, QEMU, and a RISC-V capable GDB
+- Install Rust via `rustup` (not the distro `cargo` package), plus QEMU and a RISC-V capable GDB
 - Push this scaffold to GitHub
 
-**Gate:** `rustup target list --installed` shows `riscv32i-unknown-none-elf`, and `qemu-system-riscv32 --version` prints a version.
+**Rust concepts:** `rustup` vs distro `cargo`, compilation targets, `rust-toolchain.toml`, `cargo check` vs `cargo build`
+
+**Gate:** `rustup target list --installed` shows `riscv32i-unknown-none-elf`, `qemu-system-riscv32 --version` prints a version, and `cargo check` passes.
 
 ## Stage 1: Boot to `main`
 
@@ -15,6 +19,8 @@ Each stage ends with a gate: a concrete check that either passes or fails. Don't
 - Write `link.ld`: memory region, section placement (`.text`, `.rodata`, `.data`, `.bss`), stack top symbol
 - Write `_start` in assembly: set the stack pointer, zero `.bss`, jump to `main`
 - `main` spins in a loop
+
+**Rust concepts:** `#![no_std]`, `#![no_main]`, `extern "C"`, `#[no_mangle]`, the `!` (never) type, `#[panic_handler]`, `global_asm!`, linker symbols as `extern` statics
 
 **Gate:** Under GDB, execution reaches `main` and `.bss` is verified zeroed. You can explain why each step in `_start` must happen before any Rust code runs.
 
@@ -24,12 +30,16 @@ Each stage ends with a gate: a concrete check that either passes or fails. Don't
 - Write a minimal driver using volatile MMIO reads and writes
 - Print a string
 
+**Rust concepts:** primitive integer types, raw pointers, `unsafe`, `core::ptr::read_volatile` / `write_volatile`, `const`
+
 **Gate:** `cargo run` prints text to the terminal. You can explain why the accesses must be volatile and what the compiler might do otherwise.
 
 ## Stage 3: Formatting and panics
 
 - Implement `core::fmt::Write` for the UART
 - Panic handler prints the panic message and location, then halts
+
+**Rust concepts:** traits (`core::fmt::Write`), `Result`, `write!` / `format_args!`, `&str`
 
 **Gate:** A deliberate panic prints its file and line number.
 
@@ -39,12 +49,16 @@ Each stage ends with a gate: a concrete check that either passes or fails. Don't
 - Configure the CLINT timer to fire periodically
 - Distinguish exceptions from interrupts using `mcause`
 
+**Rust concepts:** `asm!` for CSR access, `static mut` and why it's dangerous, `enum` + `match` for decoding `mcause`
+
 **Gate:** A tick counter prints on a fixed interval, and an illegal instruction is caught and reported instead of hanging.
 
 ## Stage 5: Self-reporting tests
 
 - Write a small test harness that runs checks and reports pass/fail
 - Use a memory-mapped status address to end the run with an exit code (on QEMU `virt`, find the test/finisher device)
+
+**Rust concepts:** function pointers, arrays and slices, modules
 
 **Gate:** `cargo run` exits with code 0 on pass and nonzero on fail, so a script can run it without a human watching.
 
@@ -53,6 +67,8 @@ Each stage ends with a gate: a concrete check that either passes or fails. Don't
 - Task control blocks, context switch in assembly, round-robin `yield`
 - Two tasks sharing the UART
 
+**Rust concepts:** structs, `#[repr(C)]` for a fixed TCB layout, pointers to structs
+
 **Gate:** Two tasks interleave output correctly. You can walk through exactly which registers a context switch saves and why.
 
 ## Stage 7: Retarget to rv32i-core
@@ -60,5 +76,7 @@ Each stage ends with a gate: a concrete check that either passes or fails. Don't
 - Match the core's memory map (reset vector, RAM size, MMIO status address)
 - Swap the UART driver for whatever output the core provides
 - Run the Stage 5 test suite on the core in Verilator
+
+**Rust concepts:** `#[cfg(...)]` and Cargo features to switch between QEMU and rv32i-core builds
 
 **Gate:** The same test binary passes on QEMU and on rv32i-core in simulation.

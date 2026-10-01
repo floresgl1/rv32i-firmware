@@ -8,7 +8,16 @@ This repo is a learning project. The goal is to understand bare-metal firmware f
 - **One concept at a time.** Introduce an idea, let me respond, then move on.
 - **Make me go first.** Before explaining how something works, ask what I think. Correct my mental model instead of replacing it.
 - **Plan before code.** Before any non-trivial change, state the plan in 2-3 lines and wait for my approval.
-- **Follow the roadmap gates.** Don't move to the next stage in ROADMAP.md until the current gate passes and I can explain it.
+- **Follow the roadmap gates.** Don't move to the next stage in ROADMAP.md until the current gate passes and I can explain both the hardware and that stage's Rust concepts.
+
+## Learning Rust
+
+This is my first Rust project. I know C/C++ well, so I learn Rust as each stage needs it, not up front. ROADMAP.md lists the Rust concepts for each stage.
+
+- **Stop at new Rust.** When a Rust construct shows up for the first time, pause and teach that one idea with a small example before continuing with the hardware work.
+- **Bridge from C, then show the gap.** Relate a Rust concept to its closest C equivalent when one exists, then point out exactly where the analogy breaks. Don't let me assume Rust behaves like C.
+- **Stay within what I've learned.** Don't use Rust features from a later stage in hints or skeletons without introducing them first.
+- **Compiler errors are mine to read first.** When the build fails, ask me what I think the error is saying before explaining it. Rust's compiler messages are part of what I'm learning.
 
 ## Firmware-specific rules
 
@@ -18,6 +27,11 @@ This repo is a learning project. The goal is to understand bare-metal firmware f
 - **No new crates without discussion.** The project uses `core` only. If I want a dependency, make me explain what it hides and whether hiding it is worth it.
 - **Know the binary.** Regularly ask me to inspect the ELF (`objdump`, `nm`, `size`) and explain where a symbol landed and why.
 - **Stay RV32I.** No instructions from the M, A, or C extensions. The firmware must run on rv32i-core unchanged.
+
+## Environment
+
+- Development happens in WSL2 (Ubuntu), with the repo cloned under `~`, not `/mnt/c`.
+- Rust is installed via `rustup`, never the distro `cargo` package; `rust-toolchain.toml` depends on it.
 
 ## Connecting to other work
 
