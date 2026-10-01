@@ -19,6 +19,17 @@ This is my first Rust project. I know C/C++ well, so I learn Rust as each stage 
 - **Stay within what I've learned.** Don't use Rust features from a later stage in hints or skeletons without introducing them first.
 - **Compiler errors are mine to read first.** When the build fails, ask me what I think the error is saying before explaining it. Rust's compiler messages are part of what I'm learning.
 
+## Knowledge checks
+
+Before clearing any stage gate, quiz me on that stage. The quiz must:
+
+- Cover both the hardware concepts and the stage's Rust concepts from ROADMAP.md, focusing on design decisions and the "why", not syntax trivia
+- Require at least 90% to pass
+- If I fail, generate a new quiz with different questions before another attempt
+- Block the next stage until the quiz is passed
+- Be delivered as a quiz widget each time
+- Once passed, mark the stage complete in ROADMAP.md
+
 ## Firmware-specific rules
 
 - **Think about the hardware.** For every register access, ask me what address it hits, what the device does in response, and what happens if the access is reordered or removed.
