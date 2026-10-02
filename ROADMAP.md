@@ -8,10 +8,35 @@ This is also a first Rust project. Rust is learned one concept at a time, when a
 
 - Install Rust via `rustup` (not the distro `cargo` package), plus QEMU and a RISC-V capable GDB
 - Push this scaffold to GitHub
+- Study the compile → link → load pipeline (reading list below)
+- Inspect real binaries: a small C `hello` and the firmware ELF, using `readelf -h`, `readelf -S`, `readelf -s` / `nm`, and `size`
+- Write `docs/stage0.md` from scratch, in your own words
 
 **Rust concepts:** `rustup` vs distro `cargo`, compilation targets, `rust-toolchain.toml`, `cargo check` vs `cargo build`
 
-**Gate:** `rustup target list --installed` shows `riscv32i-unknown-none-elf`, `qemu-system-riscv32 --version` prints a version, and `cargo check` passes.
+**Concepts to lock down before the gate:**
+
+- Build time vs run time: build time only writes bytes into a file; anything that touches the target's RAM or registers is run time
+- Who does each job: rustc (type checks), linker (symbol resolution, addresses), loader/kernel/QEMU (copying segments into RAM), `_start` (stack, `.bss` on bare metal)
+- Execution begins at the ELF entry address (`_start`), not `main`; on Linux, `_start` comes from `crt1.o`
+- `.bss` is `NOBITS`: the file stores only its size, so something must zero it at run time (the kernel on Linux, `_start` on bare metal)
+- A "Finished" build is not a working binary: check `size` and `readelf -h` (an unreachable `main` gets discarded by the linker)
+
+**Reading list:**
+
+1. CS:APP (Bryant & O'Hallaron), Chapter 7 "Linking": symbol resolution, relocation, loading executables
+2. *Writing an OS in Rust*, "A Freestanding Rust Binary" (os.phil-opp.com)
+3. The Embedonomicon, "Memory layout" chapter (docs.rust-embedded.org/embedonomicon): read before writing `link.ld`, don't copy
+
+**`docs/stage0.md` must answer:**
+
+- Why `rustup` instead of apt's `cargo`: what did the apt version lack?
+- `rust-toolchain.toml` (what to install) vs `.cargo/config.toml` (what to build for)
+- The B/R table with who does each job, plus the rule used to decide
+- What `cargo check` proves, what `cargo build` proves, and what neither proves (use real `size` output as evidence)
+- Why `_start` exists and which jobs it takes over from the kernel on bare metal
+
+**Gate:** `rustup target list --installed` shows `riscv32i-unknown-none-elf`, `qemu-system-riscv32 --version` prints a version, and `cargo check` passes. `docs/stage0.md` is reviewed, and the Stage 0 knowledge check is passed at 90% or better.
 
 ## Stage 1: Boot to `main`
 
