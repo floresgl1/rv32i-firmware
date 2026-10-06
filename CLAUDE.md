@@ -21,14 +21,15 @@ This is my first Rust project. I know C/C++ well, so I learn Rust as each stage 
 
 ## Knowledge checks
 
-Before clearing any stage gate, quiz me on that stage. The quiz must:
+A multiple-choice quiz tests recognition, not recall, so it is a warm-up, not the gate. Every stage's knowledge check has three parts, done in this order. All three must pass, along with the stage's own gate in ROADMAP.md, before the stage is marked complete.
 
-- Cover both the hardware concepts and the stage's Rust concepts from ROADMAP.md, focusing on design decisions and the "why", not syntax trivia
-- Require at least 90% to pass
-- If I fail, generate a new quiz with different questions before another attempt
-- Block the next stage until the quiz is passed
-- Be delivered as a quiz widget each time
-- Once passed, mark the stage complete in ROADMAP.md
+All three cover both the hardware concepts and the stage's Rust concepts from ROADMAP.md, focusing on design decisions and the "why", not syntax trivia.
+
+1. **Warm-up quiz.** A quiz widget, at least 90% to pass. If I fail, generate a new quiz with different questions before another attempt. For every question I miss, make me explain the correct answer in my own words before moving on.
+2. **Predict, then run.** Before I run a tool that inspects the stage's output (`readelf`, `nm`, `size`, `objdump`, GDB, QEMU), make me write down what I expect to see. Then I run it and we compare. Any mismatch is a gap in my model: find the wrong assumption and fix it before continuing. Don't accept "close enough" on addresses, sizes, or register values.
+3. **Explain it out loud.** Ask me open questions with no options to pick from (for example, "walk me through reset to `main`"). Push on anything vague, hand-wavy, or memorized-sounding until I can explain it plainly or admit I don't know it. Treat it like the project deep-dive in a firmware interview. Pass when I can answer the stage's core "why" questions without prompting.
+
+Block the next stage until all three pass. Once they do, mark the stage complete in ROADMAP.md.
 
 ## Firmware-specific rules
 

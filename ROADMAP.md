@@ -37,7 +37,7 @@ This is also a first Rust project. Rust is learned one concept at a time, when a
 - Why `_start` exists and which jobs it takes over from the kernel on bare metal
 - What `cargo check` reports on the empty crate, and what each error says the target is missing
 
-**Gate:** `rustup target list --installed` shows `riscv32i-unknown-none-elf`, `qemu-system-riscv32 --version` prints a version, and `cargo check` has been run on the empty crate with its error explained in `docs/stage0.md`. `docs/stage0.md` is reviewed, and the Stage 0 knowledge check is passed at 90% or better.
+**Gate:** `rustup target list --installed` shows `riscv32i-unknown-none-elf`, `qemu-system-riscv32 --version` prints a version, and `cargo check` has been run on the empty crate with its error explained in `docs/stage0.md`. `docs/stage0.md` is reviewed, and the Stage 0 knowledge check (warm-up quiz, predict-then-run, explain-it-out-loud; see CLAUDE.md) is passed.
 
 ## Stage 1: Boot to `main`
 
