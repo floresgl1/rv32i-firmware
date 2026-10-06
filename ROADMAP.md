@@ -35,8 +35,9 @@ This is also a first Rust project. Rust is learned one concept at a time, when a
 - The B/R table with who does each job, plus the rule used to decide
 - What `cargo check` proves, what `cargo build` proves, and what neither proves (use real `size` output as evidence)
 - Why `_start` exists and which jobs it takes over from the kernel on bare metal
+- What `cargo check` reports on the empty crate, and what each error says the target is missing
 
-**Gate:** `rustup target list --installed` shows `riscv32i-unknown-none-elf`, `qemu-system-riscv32 --version` prints a version, and `cargo check` passes. `docs/stage0.md` is reviewed, and the Stage 0 knowledge check is passed at 90% or better.
+**Gate:** `rustup target list --installed` shows `riscv32i-unknown-none-elf`, `qemu-system-riscv32 --version` prints a version, and `cargo check` has been run on the empty crate with its error explained in `docs/stage0.md`. `docs/stage0.md` is reviewed, and the Stage 0 knowledge check is passed at 90% or better.
 
 ## Stage 1: Boot to `main`
 
@@ -47,7 +48,7 @@ This is also a first Rust project. Rust is learned one concept at a time, when a
 
 **Rust concepts:** `#![no_std]`, `#![no_main]`, `extern "C"`, `#[no_mangle]`, the `!` (never) type, `#[panic_handler]`, `global_asm!`, linker symbols as `extern` statics
 
-**Gate:** Under GDB, execution reaches `main` and `.bss` is verified zeroed. You can explain why each step in `_start` must happen before any Rust code runs.
+**Gate:** `cargo check` and `cargo build` pass. Under GDB, execution reaches `main` and `.bss` is verified zeroed. You can explain why each step in `_start` must happen before any Rust code runs.
 
 ## Stage 2: UART output
 

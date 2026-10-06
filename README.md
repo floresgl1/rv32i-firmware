@@ -37,7 +37,7 @@ sudo apt install qemu-system-misc gdb-multiarch
 ### Build and run
 
 ```sh
-cargo check    # type-checks now (Stage 0)
+cargo check    # type-checks once Stage 1 (no_std, no_main, panic handler) is written
 cargo build    # links once Stage 1 (link.ld + _start) is written
 cargo run      # launches QEMU via the runner in .cargo/config.toml
 ```
